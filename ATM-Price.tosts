@@ -1,0 +1,11 @@
+input daysUntilNextExpiration = 1;
+def expiration = GetYYYYMMDD() + daysUntilNextExpiration;
+AddLabel(yes,"UnderlyingSymbol = " + GetUnderlyingSymbol()+ "  ");
+AddLabel(yes," " + close(GetUnderlyingSymbol())+ "  ", color.gray);
+AddLabel(yes,"Call = " + GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.CALL)+ "  ");
+addlabel(yes, " " + close(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.CALL)) + "   ", color.gray);
+plot Call = close(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.CALL));
+
+AddLabel(yes,"PUT = " + GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT)+ "  ");
+addlabel(yes, " " + close(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT)) + "   ", color.gray);
+plot Put = close(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT));
