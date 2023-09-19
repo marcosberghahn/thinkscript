@@ -1,0 +1,33 @@
+# Script to identify revertion points
+# Evaluate the volatility of AT Put Credit apread. 
+# High spikes might indicate tendency reversion.
+
+declare lower;
+# declare once_per_bar;
+
+input averagelengh = 5;
+input Threshold = 0.3;
+def expiration = GetYYYYMMDD() + 1;
+
+
+# ATM Price Change
+def OTMPut = (high(GetNextOTMOption(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT))) - low(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT))) + (high(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT)) - low(GetNextOTMOption(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT))));
+
+def ITMPut = (high(GetNextITMOption(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT))) - low(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT))) + (high(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT)) - low(GetNextITMOption(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT))));
+
+def putDivergence = OTMPut + ITMPut;
+
+def putDivergencesma = average(putDivergence,averagelengh);
+
+
+plot Divergence = AbsValue(putDivergencesma - putDivergence);
+
+Divergence.DefineColor("Positive", Color.UPTICK);
+Divergence.DefineColor("Negative", Color.DOWNTICK);
+Divergence.AssignValueColor(if Divergence >= Threshold then Divergence.Color("Positive") else Divergence.Color("Negative"));
+Divergence.SetPaintingStrategy(PaintingStrategy.HISTOGRAM);
+
+plot plotThreshold = Threshold;
+plotThreshold.AssignValueColor(color.gray);
+
+AddLabel(yes," " + Divergence, color.gray);
