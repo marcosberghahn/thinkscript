@@ -9,8 +9,7 @@ AddLabel(yes,"PUT = " + GetATMOption(GetUnderlyingSymbol(), expiration, OptionCl
 addlabel(yes, " " + close(GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT)) + "   ", color.gray);
 
 
-
-
+input option = GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.CALL)+ "  ";
 input daysUntilNextExpiration = 1;
 def expiration = GetYYYYMMDD() + daysUntilNextExpiration;
 AddLabel(IsOptionable(),"UnderlyingSymbol = " + GetUnderlyingSymbol()+ "  ");
@@ -20,13 +19,3 @@ addlabel(yes, " " + close(GetATMOption(GetUnderlyingSymbol(), expiration, Option
 addlabel(yes, " " + close(".SPY220810C420") + "          ", color.gray);
 AddLabel(IsOptionable(),"PUT = " + GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.PUT)+ "  ");
 addlabel(yes, " " + close(".SPY220810P420") + "          ", color.gray);
-
-
-
-
-
-.SPY220810P420
-
-
-
-input option = GetATMOption(GetUnderlyingSymbol(), expiration, OptionClass.CALL)+ "  ";
